@@ -10,23 +10,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.philips.lighting.hue.listener.PHLightListener;
-import com.philips.lighting.hue.sdk.PHHueSDK;
-import com.philips.lighting.model.PHBridge;
-import com.philips.lighting.model.PHBridgeResource;
-import com.philips.lighting.model.PHHueError;
-import com.philips.lighting.model.PHLight;
-import com.philips.lighting.model.PHLightState;
-
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-import com.philips.lighting.hue.sdk.PHHueSDK;
-
 public class MainActivity extends AppCompatActivity {
     private Button newProjectbtn;
-    PHHueSDK phHueSDK ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,19 +49,9 @@ public class MainActivity extends AppCompatActivity {
     private void setOnClickListeners(){
         newProjectbtn.setOnClickListener(new View.OnClickListener() {
             @Override
-
-
-            public void onClick(View v) {  //will start from mainactivity to connectbulbactivity class
-                phHueSDK = PHHueSDK.create();
-                PHBridge bridge = phHueSDK.getSelectedBridge();
-
-                if(bridge != null) {
-                    Intent intent = new Intent(MainActivity.this, ThemeActivity.class);
+            public void onClick(View v) {  //will start from MainActivity to SongActivity class
+                    Intent intent = new Intent(MainActivity.this, SongActivity.class);
                     startActivity(intent); //will trigger the intent
-                }else{
-                    Intent intent = new Intent(MainActivity.this, ConnectBulbActivity.class);
-                    startActivity(intent); //will trigger the intent
-                }
             }
         });
     }

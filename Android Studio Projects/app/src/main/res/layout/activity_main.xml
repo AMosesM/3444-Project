@@ -9,52 +9,35 @@
     android:padding="15dp">
 
     <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/topMALayout">
-
-        <ImageView
-            android:id="@+id/imageView"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
-            android:contentDescription="@string/app_name"
-            app:srcCompat="@drawable/bulblogo" />
+        android:id="@+id/topMALayout"
+        android:layout_width="375dp"
+        android:layout_height="258dp"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="15dp">
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
-            android:layout_below="@+id/imageView"
+            android:layout_alignParentTop="true"
+            android:layout_marginTop="28dp"
+            android:fontFamily="sans-serif-black"
             android:text="@string/app_name"
-            android:fontFamily="sans-serif-light"
+            android:textAlignment="center"
             android:textColor="@color/WhiteBB"
-            android:textStyle="bold"
             android:textSize="30sp"
-            android:textAlignment="center" />
-
-    </RelativeLayout>
-
-    <RelativeLayout
-        android:id="@+id/middleMALayout"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/topMALayout"
-        android:layout_marginTop="30dp">
-
+            android:textStyle="bold"
+            android:typeface="sans" />
 
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/bottomAMLayout"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
+        android:layout_width="396dp"
+        android:layout_height="284dp"
+        android:layout_marginTop="306dp"
         android:gravity="bottom"
-        android:layout_below="@+id/middleMALayout">
+        android:orientation="horizontal">
 
         <Button
 
@@ -62,14 +45,16 @@
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:text="@string/New"
-            android:fontFamily="sans-serif"
-            android:textColor="@color/WhiteBB"
-            android:textAllCaps="true"
-            android:textSize="25sp"
-            android:padding="15dp"
             android:layout_marginBottom="100dp"
-            android:background="@drawable/ic_newproj" />
+            android:background="@drawable/ic_newproj"
+            android:fontFamily="serif"
+            android:padding="15dp"
+            android:text="@string/New"
+            android:textAllCaps="true"
+            android:textColor="@color/WhiteBB"
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:typeface="serif" />
 
 
     </RelativeLayout>

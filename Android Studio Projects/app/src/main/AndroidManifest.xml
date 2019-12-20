@@ -12,8 +12,6 @@
         <activity android:name=".LaunchActivity"></activity>
         <activity android:name=".ThemeActivity" />
         <activity android:name=".SongActivity" />
-        <activity android:name=".ConnectBulbActivity" />
-        <activity android:name=".Main2Activity" />
         <activity android:name=".MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,19 +19,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity
-            android:name=".PHHomeActivity"
-            android:label="Select Bridge" >
-        </activity>
 
-        <activity
-            android:name=".MyApplicationActivity"
-            android:label="Select Bridge" >
-        </activity>
-        <activity
-            android:name=".PHPushlinkActivity"
-            android:label="Select Bridge" >
-        </activity>
     </application>
     <uses-permission android:name="android.permission.RECORD_AUDIO"/>
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS"/>

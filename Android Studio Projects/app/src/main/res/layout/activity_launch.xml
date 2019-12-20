@@ -12,14 +12,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/topLLayout">
-        <ImageView
-            android:id="@+id/bulbBeatsImage"
-            android:layout_width="200dp"
-            android:layout_height="200dp"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
-            android:contentDescription="@string/app_name"
-            app:srcCompat="@drawable/bulblogo" />
 
         <TextView
             android:id="@+id/songTitle"
@@ -27,7 +19,6 @@
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
             android:layout_marginTop="40dp"
-            android:layout_below="@+id/bulbBeatsImage"
             android:text="Song Title"
             android:fontFamily="sans-serif-light"
             android:textColor="@color/WhiteBB"
@@ -52,26 +43,22 @@
             android:layout_height="87dp"
             android:layout_alignParentTop="true"
             android:layout_marginTop="0dp"
-            android:layout_marginRight="147dp"
             android:layout_marginEnd="147dp"
-            android:layout_toStartOf="@+id/stopButton"
-            android:background="@drawable/ic_play"
             android:layout_marginBottom="70dp"
-            android:layout_toLeftOf="@+id/stopButton" />
+            android:layout_toStartOf="@+id/stopButton"
+            android:background="@drawable/ic_play" />
 
         <Button
-            style="?android:attr/borderlessButtonStyle"
             android:id="@+id/stopButton"
+            style="?android:attr/borderlessButtonStyle"
             android:layout_width="98dp"
             android:layout_height="87dp"
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
             android:layout_marginTop="0dp"
             android:layout_marginEnd="29dp"
-            android:background="@drawable/ic_stop"
             android:layout_marginBottom="70dp"
-            android:layout_alignParentRight="true"
-            android:layout_marginRight="29dp" />
+            android:background="@drawable/ic_stop" />
 
 
     </RelativeLayout>

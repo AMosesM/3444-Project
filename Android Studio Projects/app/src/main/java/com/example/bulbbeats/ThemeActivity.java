@@ -27,7 +27,6 @@ public class ThemeActivity extends AppCompatActivity {
     private Button selThemebtn;
     private ProjectSettings projset;
     private Spinner spinner1;
-    private BulbColor bulbcolors;
 
     ThemeUtil util = new ThemeUtil();//get array of themes
 
@@ -106,72 +105,26 @@ public class ThemeActivity extends AppCompatActivity {
     }
 
     private void setUNTTheme(){
-
-        ArrayList<BulbColor> themecolors = util.getAllColors();
         Intent intent = getIntent();
         String name = intent.getStringExtra("UNT");
-
-        for(BulbColor col: themecolors){
-
-            if(col.getName() == "UNT" ){
-                // TODO: 2019-11-01 need to figure out how we want to set the bulb info or whos going to be asking
-               // Toast.makeText(getApplicationContext(), " UNT found", Toast.LENGTH_LONG).show();
-            }
-
-        }
 
     }
 
     private void setChristmasTheme(){
-
-        ArrayList<BulbColor> themecolors = util.getAllColors();
         Intent intent = getIntent();
         String name = intent.getStringExtra("UNT");
-
-        for(BulbColor col: themecolors){
-
-            if(col.getName() == "Christmas" ){
-                // TODO: 2019-11-01 need to figure out how we want to set the bulb info or whos going to be asking
-               // Toast.makeText(getApplicationContext(), "christmas found", Toast.LENGTH_LONG).show();
-            }
-
-        }
 
     }
 
     private void setRainbowTheme(){
-
-        ArrayList<BulbColor> themecolors = util.getAllColors();
         Intent intent = getIntent();
         String name = intent.getStringExtra("Rainbow");
-
-        // Notify the selected item text
-        for(BulbColor col: themecolors){
-
-            if(col.getName() == "Rainbow" ){
-                // TODO: 2019-11-01 need to figure out how we want to set the bulb info or whos going to be asking
-                //Toast.makeText(getApplicationContext(), "halloweed found", Toast.LENGTH_LONG).show();
-            }
-
-        }
 
     }
 
     private void setHalloweenTheme(){
-
-        ArrayList<BulbColor> themecolors = util.getAllColors();
         Intent intent = getIntent();
         String name = intent.getStringExtra("UNT");
-
-        // Notify the selected item text
-        for(BulbColor col: themecolors){
-
-            if(col.getName() == "Christmas" ){
-                // TODO: 2019-11-01 need to figure out how we want to set the bulb info or whos going to be asking
-                //Toast.makeText(getApplicationContext(), "halloweed found", Toast.LENGTH_LONG).show();
-            }
-
-        }
 
     }
 

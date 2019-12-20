@@ -41,8 +41,8 @@ public class SongActivity extends AppCompatActivity {
     private void setSongOnClickListeners(){
         Uploadbtn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) { //will start from songactivity to themeactivity class
-                Intent sintent = new Intent(SongActivity.this, ThemeActivity.class);
+            public void onClick(View v) { //will start from SongActivity to LaunchActivity class
+                Intent sintent = new Intent(SongActivity.this, LaunchActivity.class);
                 sintent.putExtra("settings", projset);
                 startActivity(sintent); //will trigger the intent
             }

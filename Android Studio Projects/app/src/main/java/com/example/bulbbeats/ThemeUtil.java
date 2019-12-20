@@ -4,27 +4,9 @@ import java.util.ArrayList;
 
 public class ThemeUtil {
 
-    private static ArrayList<BulbColor> allColors;
-    private static ArrayList<BulbColor> selectedColors;
-
     public ThemeUtil(){
-        if(allColors == null){
-            allColors = new ArrayList<>();
-            initAllColors();
-        }
-        if(selectedColors == null){
-            selectedColors = new ArrayList<>();
-        }
+
     }
-    public static ArrayList<BulbColor> getAllColors(){return allColors;}
-    public static ArrayList<BulbColor> getSelectedColors(){return selectedColors;}
-
-    public boolean addSelectedColors(BulbColor colors){
-        return selectedColors.add(colors);
-    }
-
-
-
 
     private static void initAllColors(){
 
@@ -55,7 +37,6 @@ public class ThemeUtil {
         three_on= "false";
         three_bri= 254;
         three_sat=41;
-        allColors.add(new BulbColor(name, one_hue, one_on, one_bri, one_sat, two_hue, two_on, two_bri, two_sat, three_hue, three_on, three_bri, three_sat));
 
         name = "Halloween";
         one_hue = 6006; //orange
@@ -70,7 +51,6 @@ public class ThemeUtil {
         three_on= "false";
         three_bri= 254;
         three_sat=100;
-        allColors.add(new BulbColor(name, one_hue, one_on, one_bri, one_sat, two_hue, two_on, two_bri, two_sat, three_hue, three_on, three_bri, three_sat));
 
         name = "Rainbow";
         one_hue = 6006; //orange
@@ -85,7 +65,6 @@ public class ThemeUtil {
         three_on= "false";
         three_bri= 254;
         three_sat=100;
-        allColors.add(new BulbColor(name, one_hue, one_on, one_bri, one_sat, two_hue, two_on, two_bri, two_sat, three_hue, three_on, three_bri, three_sat));
 
 
         name = "Christmas";
@@ -101,7 +80,6 @@ public class ThemeUtil {
         three_on= "false";
         three_bri= 254;
         three_sat=46;
-        allColors.add(new BulbColor(name, one_hue, one_on, one_bri, one_sat, two_hue, two_on, two_bri, two_sat, three_hue, three_on, three_bri, three_sat));
 
     }
 

@@ -1,8 +1,8 @@
 <resources>
-    <string name="app_name">BULB BEATS</string>
+    <string name="app_name">Audio Visualizer</string>
     <string name="mainpage">MainPage</string>
     <string name="phonebuttonbar">phonebuttonbar</string>
-    <string name="New">New Project</string>
+    <string name="New">Start</string>
     <string name="Exist">Existing Project</string>
     <string name="projectName">New Project</string>
     <string name="config1">Project Name:</string>
