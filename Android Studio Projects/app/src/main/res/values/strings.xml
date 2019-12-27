@@ -13,6 +13,7 @@
     <string name="SongActivityMainText">Song Setup</string>
     <string name="SongActivityButtonText">Upload</string>
     <string name="click_here_to_select_a_song">click here to select a song</string>
+    <string name="song_title">Song Title"</string>
 
     <string name="action_settings">Settings</string>
     <string name="no_bridge">No Bridge Found.   Start Bridge Search</string>
@@ -21,7 +22,7 @@
     <string name="btn_random">Random Lights</string>
     <string name="search_progress">Searching ...</string>
     <string name="connecting">Connecting ...</string>
-    <string name="btn_ok">Ok</string>
+    <string name="btn_ok">OK</string>
     <string name="btn_cancel">Cancel</string>
     <string name="txt_could_not_connect">No connection</string>
     <string name="txt_click_random_button">Click the Random Lights Button to set your lamps to random colours.</string>

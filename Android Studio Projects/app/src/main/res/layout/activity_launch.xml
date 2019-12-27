@@ -1,63 +1,66 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LaunchActivity"
     android:background="@color/GreyBB"
-    android:padding="15dp">
+    android:paddingLeft="15dp"
+    android:paddingRight="15dp"
+    tools:context=".LaunchActivity">
 
     <RelativeLayout
+        android:id="@+id/topLLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/topLLayout">
+        android:layout_height="100dp">
 
         <TextView
             android:id="@+id/songTitle"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerHorizontal="true"
-            android:layout_marginTop="40dp"
-            android:text="Song Title"
+            android:layout_centerVertical="true"
             android:fontFamily="sans-serif-light"
+            android:text="@string/song_title"
+            android:textAlignment="center"
             android:textColor="@color/WhiteBB"
-            android:textStyle="bold"
             android:textSize="30sp"
-            android:textAlignment="center" />
+            android:textStyle="bold" />
 
     </RelativeLayout>
 
     <RelativeLayout
         android:id="@+id/bottomLLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        android:gravity="bottom"
-        android:layout_below="@+id/topLLayout">
+        android:layout_height="500dp"
+        android:layout_below="@+id/topLLayout"
+        android:paddingLeft="15dp"
+        android:paddingRight="15dp">
+
+        <com.example.bulbbeats.Views.BarGraphView
+            android:id="@+id/bar"
+            android:layout_width="match_parent"
+            android:layout_height="350dp" />
 
         <Button
             android:id="@+id/playButton"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="98dp"
-            android:layout_height="87dp"
-            android:layout_alignParentTop="true"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="147dp"
-            android:layout_marginBottom="70dp"
-            android:layout_toStartOf="@+id/stopButton"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="40dp"
+            android:layout_marginBottom="30dp"
             android:background="@drawable/ic_play" />
 
         <Button
             android:id="@+id/stopButton"
             style="?android:attr/borderlessButtonStyle"
-            android:layout_width="98dp"
-            android:layout_height="87dp"
-            android:layout_alignParentTop="true"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
             android:layout_alignParentEnd="true"
-            android:layout_marginTop="0dp"
-            android:layout_marginEnd="29dp"
-            android:layout_marginBottom="70dp"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="40dp"
+            android:layout_marginBottom="30dp"
             android:background="@drawable/ic_stop" />
 
 

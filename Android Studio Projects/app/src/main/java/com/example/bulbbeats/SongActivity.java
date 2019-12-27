@@ -26,7 +26,7 @@ public class SongActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_song);
 
-        projset = getIntent().getParcelableExtra("settings");
+        projset = null;
 
         initSongWidgits();
         setSongOnClickListeners();
@@ -62,7 +62,7 @@ public class SongActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         if(requestCode == openDoc && resultCode == RESULT_OK) {
             super.onActivityResult(requestCode, resultCode, data);
-            projset.songUri = data.getData();
+            projset = new ProjectSettings(data.getData());
             selectSong.setText(projset.songUri.getLastPathSegment());
         }
     }

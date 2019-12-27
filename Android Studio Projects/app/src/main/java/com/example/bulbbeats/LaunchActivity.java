@@ -21,13 +21,15 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.example.bulbbeats.Views.BarGraphView;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Random;
 
-public class LaunchActivity extends AppCompatActivity implements fftListener{
+public class LaunchActivity extends AppCompatActivity implements fftListener {
 
-    private static Context context;
+    private Context context;
     private ProjectSettings projSet;
     private AudioProcessor audProc;
     private Button playButton;
@@ -35,6 +37,7 @@ public class LaunchActivity extends AppCompatActivity implements fftListener{
     private MediaPlayer mPlayer;
     private TextView songTitle;
     private String temp;
+    private BarGraphView barGraphView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,17 +45,18 @@ public class LaunchActivity extends AppCompatActivity implements fftListener{
         setContentView(R.layout.activity_launch);
         context = getApplicationContext();
 
-        //this may be redundant but it's just to make sure it is not used before it is created.
+        //custom view for the bars
+        barGraphView = findViewById(R.id.bar);
+
         mPlayer = null;
-        audProc=null;
-        //constructs the textview.
-        songTitle = (TextView)findViewById(R.id.songTitle);
+        audProc = null;
+
+        songTitle = findViewById(R.id.songTitle);
 
         //grabs the project settings passed by the previous activity.
         projSet = getIntent().getParcelableExtra("settings");
 
-        //cursor is used to get the name of the song. We should find a way to prevent the
-        //length of the song from affecting the scale of the buttons. It currently does that.
+        //cursor is used to get the name of the song.
         Cursor returnCursor = getContentResolver().query(projSet.songUri, null, null, null, null);
 
         //used to find the song name
@@ -86,8 +90,11 @@ public class LaunchActivity extends AppCompatActivity implements fftListener{
         }
         if(audProc==null) {
             audProc = new AudioProcessor(mPlayer, context);
-            audProc.setfftListener(this);
+            audProc.setFFTListener(this);
         }
+
+        barGraphView.enable();
+
         start();
 
         //make pause button icon drawable
@@ -102,6 +109,7 @@ public class LaunchActivity extends AppCompatActivity implements fftListener{
 
     public void stop()
     {
+        barGraphView.disable();
         stopPlayer();
         audProc = null;
         changePausePlayButton(1);
@@ -109,6 +117,7 @@ public class LaunchActivity extends AppCompatActivity implements fftListener{
 
     public void release()
     {
+        barGraphView.disable();
         if(mPlayer != null) {
             mPlayer.pause();
         }
@@ -195,7 +204,6 @@ public class LaunchActivity extends AppCompatActivity implements fftListener{
     private void stopHandler(View v){
         changePausePlayButton(1);
         stop();
-
     }
 
     private void playPauseHandler(View v){
@@ -210,9 +218,10 @@ public class LaunchActivity extends AppCompatActivity implements fftListener{
         }
     }
 
+
     @Override
-    public void onUpdate(float[] FFT) {
-
-
+    public void onUpdate(float[] Keys) {
+        barGraphView.updateFFT(Keys);
+        barGraphView.invalidate();
     }
 }
