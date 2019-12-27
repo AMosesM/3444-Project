@@ -42,7 +42,7 @@ public class BarGraphView extends View{
     {
         barPaint = new Paint();
         barPaint.setStyle(Paint.Style.STROKE);
-        barPaint.setStrokeWidth(7.0f);
+        barPaint.setStrokeWidth(1.0f);
         barPaint.setColor(Color.GREEN);
 
         enable = false;
@@ -54,8 +54,8 @@ public class BarGraphView extends View{
         float offset = 0;
         if(enable) {
             for (int i = 0; i < viewFFT.length; i++) {
-                canvas.drawLine(25.0f + offset, 725.0f - viewFFT[i], 25.0f + offset, 750.0f, barPaint);
-                offset += 10.0f;
+                canvas.drawLine(offset, 725.0f - viewFFT[i], offset, 750.0f, barPaint);
+                offset += 2.0f;
             }
         }
     }

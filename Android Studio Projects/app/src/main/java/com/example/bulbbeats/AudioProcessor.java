@@ -12,7 +12,7 @@ public class AudioProcessor{
     private float[] FFT;
     private float[] Keys;
     private Visualizer mVisualizer;
-    private static int numBins = 32;
+    private static int numBins = 500;
     private static int[] KeyToFreq;
     private static int[] FreqToKeys;
     private int PERMISSION_CODE = 1;
@@ -26,11 +26,11 @@ public class AudioProcessor{
         mVisualizer = new Visualizer(mPlayer.getAudioSessionId());
         mVisualizer.setEnabled(false);
         mVisualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
-        Keys = new float[88];
-        FFT = new float[32];
+        //Keys = new float[88];
+        FFT = new float[500];
         Arrays.fill(Keys, 0);
-        KeyToFreq = new int[]{7,14,19,23,26,29,31,33,35,37,38};
-        FreqToKeys = new int[]{28,30,32,34,36,38,40,43,46,49,52,55,58,62,65,69,74,78,83,88,93,99,105,111,118,125,133,141,149,159,168,178,189,200,212};
+        //KeyToFreq = new int[]{7,14,19,23,26,29,31,33,35,37,38};
+        //FreqToKeys = new int[]{28,30,32,34,36,38,40,43,46,49,52,55,58,62,65,69,74,78,83,88,93,99,105,111,118,125,133,141,149,159,168,178,189,200,212};
 
         Visualizer.OnDataCaptureListener captureListener = new Visualizer.OnDataCaptureListener() {
             @Override
@@ -43,7 +43,7 @@ public class AudioProcessor{
                 updateFFT(fft);
                 if(listener == null)
                     return;
-                listener.onUpdate(Keys);
+                listener.onUpdate(FFT);
             }
         };
 
@@ -54,27 +54,9 @@ public class AudioProcessor{
 
     public void updateFFT(byte[] fft)
     {
-        /*int n = fft.length;
-        int[] magnitudes = new int[n / 2 + 1];
-        magnitudes[0] = Math.abs(fft[0]);
-        magnitudes[n / 2] = Math.abs(fft[1]);
-
-        for(int k = 1; k < n / 2; k++){
-            int x = k * 2;
-            magnitudes[k] = (int)Math.log10((float)Math.hypot(fft[x], fft[x + 1])) * 40;
-        }
-
-        for (int i = 1; i <= numBins; i++) {
-            float avg = 0;
-
-            for(int j = 0; j < (magnitudes.length-1) / numBins; j++)
-                 avg += magnitudes[j*i+1];
-
-            avg /= numBins;
-            FFT[i-1] = avg;
-        }*/
-
-        /*int numBuckets = fft.length/2;
+    //--------Below is the code for mapping to 500 frequency bins in Float[] FFT. ------------------//
+    //--------You can change the number of bins to draw by changing numBins and the size of FFT[]---//
+        int numBuckets = fft.length/2;
         int binSize = numBuckets / numBins;
 
         for(int j = 0; j < numBins; j++){
@@ -84,13 +66,15 @@ public class AudioProcessor{
             for (int i = 0; i < binSize; i++) {
                 byte rfk = fft[offset + i];
                 byte ifk = fft[offset + i + 1];
-                temp = (rfk * rfk + ifk * ifk)/20;
+                temp = (rfk * rfk + ifk * ifk);
                 if(temp > max)
                     max = temp;
             }
             FFT[j] = (float)max;
-        }*/
+        }
 
+        //-------Below is the code for mapping to ~88 piano keys stored in Float[] Keys----------//
+        /*
         int cnt = 0;
 
         //  There has to be better way of doing this using a map or dictionary.
@@ -113,32 +97,6 @@ public class AudioProcessor{
                 cnt++;
             }
 
-        }
-
-        /*for(int i = 28; i < 41; i+=2)
-        {
-
-            byte rfk = fft[i * 2 + 4];
-            byte ifk = fft[i * 2 + 5];
-            Keys[53+cnt] = (float) Math.pow((int) Math.log10(rfk * rfk + ifk * ifk) * 4, 4) / 64;
-            cnt++;
-        }
-        cnt = 0;
-        for(int i = 43; i < 59; i+=3)
-        {
-            byte rfk = fft[i * 2 + 4];
-            byte ifk = fft[i * 2 + 5];
-            Keys[60+cnt] = (float) Math.pow((int) Math.log10(rfk * rfk + ifk * ifk) * 4, 4) / 64;
-            cnt++;
-        }
-        for(int i = 62; i < 79; i++)
-        {
-            byte rfk = fft[i * 2 + 4];
-            byte ifk = fft[i * 2 + 5];
-            if(i==62)
-                Keys[66] = (float) Math.pow((int) Math.log10(rfk * rfk + ifk * ifk) * 4, 4) / 64;
-            if(i==65)
-                Keys[67]
         }*/
 
         //roundtrip time
