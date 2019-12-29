@@ -1,6 +1,4 @@
 package com.example.bulbbeats;
-
-import android.content.Context;
 import android.media.MediaPlayer;
 import android.media.audiofx.Visualizer;
 import android.util.Log;
@@ -8,29 +6,30 @@ import android.util.Log;
 import java.util.Arrays;
 import java.util.Date;
 
-public class AudioProcessor{
+class AudioProcessor{
     private float[] FFT;
     private float[] Keys;
     private Visualizer mVisualizer;
-    private static int numBins = 500;
+    private int numBins = 510;
     private static int[] KeyToFreq;
     private static int[] FreqToKeys;
-    private int PERMISSION_CODE = 1;
     private fftListener listener;
     private Date date1 = new Date();
-    private Date date2 = null;
+    private enum mode {key, fft}
+    private mode analyzeMode;
 
     //constructor
-    public AudioProcessor(MediaPlayer mPlayer, Context context)
+    AudioProcessor(MediaPlayer mPlayer)
     {
         mVisualizer = new Visualizer(mPlayer.getAudioSessionId());
         mVisualizer.setEnabled(false);
         mVisualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
-        //Keys = new float[88];
-        FFT = new float[500];
+        Keys = new float[88];
+        FFT = new float[numBins];
         Arrays.fill(Keys, 0);
-        //KeyToFreq = new int[]{7,14,19,23,26,29,31,33,35,37,38};
-        //FreqToKeys = new int[]{28,30,32,34,36,38,40,43,46,49,52,55,58,62,65,69,74,78,83,88,93,99,105,111,118,125,133,141,149,159,168,178,189,200,212};
+        KeyToFreq = new int[]{7,14,19,23,26,29,31,33,35,37,38};
+        FreqToKeys = new int[]{28,30,32,34,36,38,40,43,46,49,52,55,58,62,65,69,74,78,83,88,93,99,105,111,118,125,133,141,149,159,168,178,189,200,212};
+        analyzeMode = mode.key;
 
         Visualizer.OnDataCaptureListener captureListener = new Visualizer.OnDataCaptureListener() {
             @Override
@@ -40,10 +39,19 @@ public class AudioProcessor{
 
             @Override
             public void onFftDataCapture(Visualizer visualizer, byte[] fft, int samplingRate) {
-                updateFFT(fft);
-                if(listener == null)
-                    return;
-                listener.onUpdate(FFT);
+                if(analyzeMode == mode.fft) {
+                    updateFFT(fft);
+                    if (listener == null)
+                        return;
+                    listener.onUpdate(FFT);
+                }
+                else
+                {
+                    updateKeys(fft);
+                    if(listener == null)
+                        return;
+                    listener.onUpdate(Keys);
+                }
             }
         };
 
@@ -52,29 +60,9 @@ public class AudioProcessor{
                 20000, false, true);
     }
 
-    public void updateFFT(byte[] fft)
+    private void updateKeys(byte[] fft)
     {
-    //--------Below is the code for mapping to 500 frequency bins in Float[] FFT. ------------------//
-    //--------You can change the number of bins to draw by changing numBins and the size of FFT[]---//
-        int numBuckets = fft.length/2;
-        int binSize = numBuckets / numBins;
-
-        for(int j = 0; j < numBins; j++){
-            int max = 0;
-            int temp = 0;
-            int offset = j*binSize;
-            for (int i = 0; i < binSize; i++) {
-                byte rfk = fft[offset + i];
-                byte ifk = fft[offset + i + 1];
-                temp = (rfk * rfk + ifk * ifk);
-                if(temp > max)
-                    max = temp;
-            }
-            FFT[j] = (float)max;
-        }
-
-        //-------Below is the code for mapping to ~88 piano keys stored in Float[] Keys----------//
-        /*
+        //-------this function reads the visualizer data into ~88 piano keys stored in Float[] Keys----------//
         int cnt = 0;
 
         //  There has to be better way of doing this using a map or dictionary.
@@ -96,31 +84,65 @@ public class AudioProcessor{
                 Keys[53 + cnt] = (float) (rfk * rfk + ifk * ifk)/20;
                 cnt++;
             }
+        }
+    }
 
-        }*/
+    private void updateFFT(byte[] fft)
+    {
+    //--------This function reads the visualizer data into 510 frequency bins in Float[] FFT. ------------------//
+    //--------You can change the number of bins to draw by changing numBins and the size of FFT[]---//
 
-        //roundtrip time
-        date2 = new Date();
+        int numBuckets = fft.length/2;
+        int binSize = numBuckets / numBins;
+
+        for(int j = 0; j < numBins; j++){
+            int max = 0;
+            int temp;
+            int offset = j*binSize;
+            for (int i = 0; i < binSize; i++) {
+                byte rfk = fft[offset + i];
+                byte ifk = fft[offset + i + 1];
+                temp = (rfk * rfk + ifk * ifk);
+                if(temp > max)
+                    max = temp;
+            }
+            FFT[j] = (float)max;
+        }
+
+        //round-trip time
+        Date date2 = new Date();
         long capture = date2.getTime() - date1.getTime();
         Log.v("LaunchActivity.onUpdate", String.format("%6.1fms: %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f %6.1f",
                 (float)capture,FFT[0], FFT[1], FFT[2], FFT[3],FFT[4], FFT[5], FFT[6], FFT[7],FFT[8], FFT[9], FFT[10], FFT[11],FFT[12], FFT[13], FFT[14], FFT[15]));
         date1 = new Date();
     }
 
-    public void release()
+    void release()
     {
         mVisualizer.release();
     }
 
-    public void enable()
+    void enable()
     {
         mVisualizer.setEnabled(true);
     }
 
-    public void disable()
+    void disable()
     {
         mVisualizer.setEnabled(false);
     }
 
-    public void setFFTListener(fftListener listener) {this.listener = listener;};
+    void keymode()
+    {
+        analyzeMode = mode.key;
+    }
+
+    void fftmode()
+    {
+        analyzeMode = mode.fft;
+    }
+
+    void setFFTListener(fftListener listener) {
+        this.listener = listener;
+    }
 }

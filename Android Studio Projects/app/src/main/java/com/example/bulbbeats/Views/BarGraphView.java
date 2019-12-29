@@ -16,9 +16,11 @@ import com.example.bulbbeats.fftListener;
 public class BarGraphView extends View{
 
     Paint barPaint;
-
+    float offsetLength;
     float[] viewFFT;
     boolean enable;
+    enum mode {key, fft}
+    mode paintMode;
 
     public BarGraphView(Context context) {
         super(context);
@@ -28,13 +30,11 @@ public class BarGraphView extends View{
 
     public BarGraphView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
-
         init(attrs);
     }
 
     public BarGraphView(Context context, @Nullable AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-
         init(attrs);
     }
 
@@ -42,9 +42,8 @@ public class BarGraphView extends View{
     {
         barPaint = new Paint();
         barPaint.setStyle(Paint.Style.STROKE);
-        barPaint.setStrokeWidth(1.0f);
         barPaint.setColor(Color.GREEN);
-
+        keypaint();
         enable = false;
     }
 
@@ -53,9 +52,20 @@ public class BarGraphView extends View{
         super.onDraw(canvas);
         float offset = 0;
         if(enable) {
-            for (int i = 0; i < viewFFT.length; i++) {
-                canvas.drawLine(offset, 725.0f - viewFFT[i], offset, 750.0f, barPaint);
-                offset += 2.0f;
+            if(paintMode == mode.fft) {
+                for (int i = 0; i < viewFFT.length; i++) {
+                    barPaint.setAlpha((int) viewFFT[i] / 20);
+                    canvas.drawLine(offset, 0.0f, offset, 750.0f, barPaint);
+                    offset += offsetLength;
+                }
+            }
+            if(paintMode == mode.key)
+            {
+                for (int i = 0; i < viewFFT.length; i++)
+                {
+                    canvas.drawLine(offset, 740.0f - viewFFT[i], offset, 750.0f, barPaint);
+                    offset += offsetLength;
+                }
             }
         }
     }
@@ -73,5 +83,18 @@ public class BarGraphView extends View{
     public void disable()
     {
         enable = false;
+    }
+
+    public void keypaint(){
+        barPaint.setStrokeWidth(8.0f);
+        barPaint.setAlpha(255);
+        offsetLength = 10.0f;
+        paintMode = mode.key;
+    }
+
+    public void fftpaint(){
+        barPaint.setStrokeWidth(1.0f);
+        offsetLength = 2.0f;
+        paintMode = mode.fft;
     }
 }

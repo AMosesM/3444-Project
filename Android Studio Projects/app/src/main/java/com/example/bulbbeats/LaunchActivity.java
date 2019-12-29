@@ -19,7 +19,9 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import com.example.bulbbeats.Views.BarGraphView;
 
@@ -34,9 +36,9 @@ public class LaunchActivity extends AppCompatActivity implements fftListener {
     private AudioProcessor audProc;
     private Button playButton;
     private Button stopButton;
+    private ToggleButton modeButton;
     private MediaPlayer mPlayer;
     private TextView songTitle;
-    private String temp;
     private BarGraphView barGraphView;
 
     @Override
@@ -71,6 +73,7 @@ public class LaunchActivity extends AppCompatActivity implements fftListener {
 
         playButton = findViewById(R.id.playButton);
         stopButton = findViewById(R.id.stopButton);
+        modeButton = findViewById(R.id.toggleButton);
         setSongOnClickListeners();
         //Control back button press
     }
@@ -89,11 +92,15 @@ public class LaunchActivity extends AppCompatActivity implements fftListener {
             });
         }
         if(audProc==null) {
-            audProc = new AudioProcessor(mPlayer, context);
+            audProc = new AudioProcessor(mPlayer);
             audProc.setFFTListener(this);
         }
 
         barGraphView.enable();
+        if(modeButton.isChecked())
+            audProc.fftmode();
+        else
+            audProc.keymode();
 
         start();
 
@@ -199,6 +206,26 @@ public class LaunchActivity extends AppCompatActivity implements fftListener {
                 stopHandler(v);
             }
         });
+        modeButton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                {
+                    //fft
+                    if(audProc != null)
+                        audProc.fftmode();
+                    barGraphView.fftpaint();
+                }
+                else
+                {
+                    //keys
+                    if(audProc != null)
+                        audProc.keymode();
+                    barGraphView.keypaint();
+                }
+            }
+        });
+
     }
 
     private void stopHandler(View v){
