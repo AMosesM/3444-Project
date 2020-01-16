@@ -10,17 +10,17 @@ class AudioProcessor{
     private float[] FFT;
     private float[] Keys;
     private Visualizer mVisualizer;
-    private int numBins = 510;
+    private int numBins = 512;
     private static int[] KeyToFreq;
     private static int[] FreqToKeys;
     private fftListener listener;
     private Date date1 = new Date();
     private enum mode {key, fft}
     private mode analyzeMode;
+    private int scale;
 
     //constructor
-    AudioProcessor(MediaPlayer mPlayer)
-    {
+    AudioProcessor(MediaPlayer mPlayer){
         mVisualizer = new Visualizer(mPlayer.getAudioSessionId());
         mVisualizer.setEnabled(false);
         mVisualizer.setCaptureSize(Visualizer.getCaptureSizeRange()[1]);
@@ -45,8 +45,7 @@ class AudioProcessor{
                         return;
                     listener.onUpdate(FFT);
                 }
-                else
-                {
+                else{
                     updateKeys(fft);
                     if(listener == null)
                         return;
@@ -60,14 +59,12 @@ class AudioProcessor{
                 20000, false, true);
     }
 
-    private void updateKeys(byte[] fft)
-    {
+    private void updateKeys(byte[] fft) {
         //-------this function reads the visualizer data into ~88 piano keys stored in Float[] Keys----------//
         int cnt = 0;
 
         //  There has to be better way of doing this using a map or dictionary.
-        for(int i = 0; i <= 212; i++)
-        {
+        for(int i = 0; i <= 212; i++){
             byte rfk = fft[i * 2 + 4];
             byte ifk = fft[i * 2 + 5];
 
@@ -87,8 +84,7 @@ class AudioProcessor{
         }
     }
 
-    private void updateFFT(byte[] fft)
-    {
+    private void updateFFT(byte[] fft){
     //--------This function reads the visualizer data into 510 frequency bins in Float[] FFT. ------------------//
     //--------You can change the number of bins to draw by changing numBins and the size of FFT[]---//
 
@@ -117,18 +113,15 @@ class AudioProcessor{
         date1 = new Date();
     }
 
-    void release()
-    {
+    void release(){
         mVisualizer.release();
     }
 
-    void enable()
-    {
+    void enable(){
         mVisualizer.setEnabled(true);
     }
 
-    void disable()
-    {
+    void disable(){
         mVisualizer.setEnabled(false);
     }
 

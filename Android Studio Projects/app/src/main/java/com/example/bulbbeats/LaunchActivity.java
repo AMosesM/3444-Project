@@ -20,6 +20,7 @@ import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -37,6 +38,7 @@ public class LaunchActivity extends AppCompatActivity implements fftListener {
     private Button playButton;
     private Button stopButton;
     private ToggleButton modeButton;
+    private SeekBar slider;
     private MediaPlayer mPlayer;
     private TextView songTitle;
     private BarGraphView barGraphView;
@@ -75,12 +77,15 @@ public class LaunchActivity extends AppCompatActivity implements fftListener {
         stopButton = findViewById(R.id.stopButton);
         modeButton = findViewById(R.id.toggleButton);
         setSongOnClickListeners();
+
+
+        slider =  findViewById((R.id.seekBar));
+        slider.setOnSeekBarChangeListener(seekBarChangeListener);
         //Control back button press
     }
 
     //play creates a media player and an audio processor. Also changes the icon image.
-    public  void play(View v)
-    {
+    public  void play(View v){
         if(mPlayer == null) {
             mPlayer = MediaPlayer.create(context, projSet.songUri);
             mPlayer.setOnCompletionListener(new MediaPlayer.OnCompletionListener() {
@@ -102,28 +107,26 @@ public class LaunchActivity extends AppCompatActivity implements fftListener {
         else
             audProc.keymode();
 
+        slider.setEnabled(false);
         start();
 
         //make pause button icon drawable
         changePausePlayButton(0);
     }
 
-    public  void pause(View v)
-    {
+    public  void pause(View v){
         release();
         changePausePlayButton(1);
     }
 
-    public void stop()
-    {
+    public void stop(){
         barGraphView.disable();
         stopPlayer();
         audProc = null;
         changePausePlayButton(1);
     }
 
-    public void release()
-    {
+    public void release(){
         barGraphView.disable();
         if(mPlayer != null) {
             mPlayer.pause();
@@ -134,15 +137,13 @@ public class LaunchActivity extends AppCompatActivity implements fftListener {
         }
     }
 
-    public void start()
-    {
+    public void start(){
         mPlayer.start();
         audProc.enable(); //actually enables the visualizer to start capturing data.
     }
 
     //stopPlayer calls release but also frees system resources.
-    public  void stopPlayer()
-    {
+    public  void stopPlayer(){
         if(mPlayer != null) {
             mPlayer.release();
             mPlayer = null;
@@ -215,9 +216,11 @@ public class LaunchActivity extends AppCompatActivity implements fftListener {
                     if(audProc != null)
                         audProc.fftmode();
                     barGraphView.fftpaint();
+                    slider.setEnabled(true);
                 }
                 else
                 {
+                    slider.setEnabled(false);
                     //keys
                     if(audProc != null)
                         audProc.keymode();
@@ -227,6 +230,23 @@ public class LaunchActivity extends AppCompatActivity implements fftListener {
         });
 
     }
+
+    SeekBar.OnSeekBarChangeListener seekBarChangeListener = new SeekBar.OnSeekBarChangeListener() {
+        @Override
+        public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+            barGraphView.updateScale(progress);
+        }
+
+        @Override
+        public void onStartTrackingTouch(SeekBar seekBar) {
+
+        }
+
+        @Override
+        public void onStopTrackingTouch(SeekBar seekBar) {
+
+        }
+    };
 
     private void stopHandler(View v){
         changePausePlayButton(1);
@@ -247,7 +267,7 @@ public class LaunchActivity extends AppCompatActivity implements fftListener {
 
 
     @Override
-    public void onUpdate(float[] Keys) {
+    public void onUpdate(float[] Keys){
         barGraphView.updateFFT(Keys);
         barGraphView.invalidate();
     }

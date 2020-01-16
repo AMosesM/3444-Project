@@ -22,7 +22,7 @@ public class BarGraphView extends View{
     enum mode {key, fft}
     mode paintMode;
 
-    public BarGraphView(Context context) {
+    public BarGraphView(Context context){
         super(context);
 
         init(null);
@@ -38,8 +38,7 @@ public class BarGraphView extends View{
         init(attrs);
     }
 
-    private void init(@Nullable AttributeSet set)
-    {
+    private void init(@Nullable AttributeSet set){
         barPaint = new Paint();
         barPaint.setStyle(Paint.Style.STROKE);
         barPaint.setColor(Color.GREEN);
@@ -48,14 +47,14 @@ public class BarGraphView extends View{
     }
 
     @Override
-    protected void onDraw(Canvas canvas) {
+    protected void onDraw(Canvas canvas){
         super.onDraw(canvas);
         float offset = 0;
         if(enable) {
             if(paintMode == mode.fft) {
                 for (int i = 0; i < viewFFT.length; i++) {
                     barPaint.setAlpha((int) viewFFT[i] / 20);
-                    canvas.drawLine(offset, 0.0f, offset, 750.0f, barPaint);
+                    canvas.drawLine(offset, 0.0f, offset, 725.0f, barPaint);
                     offset += offsetLength;
                 }
             }
@@ -63,25 +62,22 @@ public class BarGraphView extends View{
             {
                 for (int i = 0; i < viewFFT.length; i++)
                 {
-                    canvas.drawLine(offset, 740.0f - viewFFT[i], offset, 750.0f, barPaint);
+                    canvas.drawLine(offset, 720.0f - viewFFT[i], offset, 725.0f, barPaint);
                     offset += offsetLength;
                 }
             }
         }
     }
 
-    public void updateFFT(float[] fft)
-    {
+    public void updateFFT(float[] fft){
         viewFFT = fft;
     }
 
-    public void enable()
-    {
+    public void enable(){
         enable = true;
     }
 
-    public void disable()
-    {
+    public void disable(){
         enable = false;
     }
 
@@ -96,5 +92,10 @@ public class BarGraphView extends View{
         barPaint.setStrokeWidth(1.0f);
         offsetLength = 2.0f;
         paintMode = mode.fft;
+    }
+
+    public void updateScale(int progress){
+        barPaint.setStrokeWidth(512f/progress);
+        offsetLength = barPaint.getStrokeWidth() + 1.0f;
     }
 }
